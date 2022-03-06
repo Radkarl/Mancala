@@ -1,0 +1,51 @@
+import pygame
+
+
+# from pygame.locals import (   )
+
+class Bubble1(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Bubble1, self).__init__()
+        self.surf = pygame.Surface((100, 100))
+        self.surf.fill((255, 0, 255))
+        self.rect = self.surf.get_rect()
+
+
+bub1 = Bubble1()
+
+
+
+
+def main():
+    pygame.init()
+
+    # make the screen
+    WIDTH, HEIGHT = 1600, 800
+    screen = pygame.display.set_mode([WIDTH, HEIGHT])
+
+    # run the program
+    is_running = True
+    while is_running:
+
+        # check for events like buttons pressed
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                is_running = False
+
+        # fill background with white
+        screen.fill((255, 255, 255))
+
+        screen.blit(bub1.surf, bub1.rect)
+
+        # update the screen every tick
+        main_loop(screen)
+
+    # quit if not running
+    pygame.quit()
+
+
+def main_loop(screen):
+    pygame.display.update()
+
+
+main()
