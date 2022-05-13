@@ -3,15 +3,25 @@ import pygame
 
 # from pygame.locals import (   )
 
-class Bubble1(pygame.sprite.Sprite):
+class Background(pygame.sprite.Sprite):
+    def __init__(self, image_file, location):
+        pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
+        self.image = pygame.image.load(image_file)
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location
+
+
+
+
+class Node(pygame.sprite.Sprite):
     def __init__(self):
-        super(Bubble1, self).__init__()
+        super(Node, self).__init__()
         self.surf = pygame.Surface((100, 100))
         self.surf.fill((255, 0, 255))
         self.rect = self.surf.get_rect()
 
 
-bub1 = Bubble1()
+bub1 = Node()
 
 
 
@@ -20,8 +30,9 @@ def main():
     pygame.init()
 
     # make the screen
-    WIDTH, HEIGHT = 1600, 800
+    WIDTH, HEIGHT = 1024, 600
     screen = pygame.display.set_mode([WIDTH, HEIGHT])
+    board = Background("board.png", [0,0])
 
     # run the program
     is_running = True
@@ -35,7 +46,9 @@ def main():
         # fill background with white
         screen.fill((255, 255, 255))
 
-        screen.blit(bub1.surf, bub1.rect)
+        screen.blit(board.image, board.rect)
+
+        #screen.blit(bub1.surf, bub1.rect)
 
         # update the screen every tick
         main_loop(screen)
