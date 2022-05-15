@@ -16,13 +16,25 @@ class Background(pygame.sprite.Sprite):
 class Node(pygame.sprite.Sprite):
     def __init__(self):
         super(Node, self).__init__()
-        self.surf = pygame.Surface((100, 100))
-        self.surf.fill((255, 0, 255))
+        self.surf = pygame.Surface((109, 136))
+        self.surf.fill((0, 0, 0))
+        self.surf.set_colorkey((0, 255, 0)) # (0, 0, 0)
         self.rect = self.surf.get_rect()
 
 
-bub1 = Node()
+bubC1 = Node()
+bubC2 = Node()
+bubC3 = Node()
+bubC4 = Node()
+bubC5 = Node()
+bubC6 = Node()
 
+bub1 = Node()
+bub2 = Node()
+bub3 = Node()
+bub4 = Node()
+bub5 = Node()
+bub6 = Node()
 
 
 
@@ -48,7 +60,19 @@ def main():
 
         screen.blit(board.image, board.rect)
 
-        #screen.blit(bub1.surf, bub1.rect)
+        screen.blit(bubC1.surf, (164, 44))
+        screen.blit(bubC2.surf, (281, 44))
+        screen.blit(bubC3.surf, (398, 44))
+        screen.blit(bubC4.surf, (516, 44))
+        screen.blit(bubC5.surf, (634, 44))
+        screen.blit(bubC6.surf, (752, 44))
+
+        screen.blit(bub1.surf, (164, 416))
+        screen.blit(bub2.surf, (281, 416))
+        screen.blit(bub3.surf, (398, 416))
+        screen.blit(bub4.surf, (516, 416))
+        screen.blit(bub5.surf, (634, 416))
+        screen.blit(bub6.surf, (752, 416))
 
         # update the screen every tick
         main_loop(screen)
