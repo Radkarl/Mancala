@@ -20,6 +20,7 @@ class Endzone(pygame.sprite.Sprite):
         self.stones = 0  # default is 0
 
 
+# initialize endzones
 endzoneC = Endzone()
 endzoneP = Endzone()
 
@@ -33,6 +34,7 @@ class Node(pygame.sprite.Sprite):
         self.stones = 4  # default is 4
 
 
+# initialize nodes
 bubC1 = Node()
 bubC2 = Node()
 bubC3 = Node()
@@ -82,6 +84,38 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 is_running = False
+
+            # when player clicks the screen
+            if event.type == pygame.MOUSEBUTTONDOWN:
+
+                # save x,y coords of mouse
+                mouse = pygame.mouse.get_pos()
+
+                # check mouse coords with each node coords
+                if 164 <= mouse[0] <= 164+110 and 416 <= mouse[1] <= 416+136:
+                    move = 1
+                    # text1 = font.render('node 1', True, [0, 0, 0])
+
+                if 281 <= mouse[0] <= 281+110 and 416 <= mouse[1] <= 416+136:
+                    move = 2
+                    # text2 = font.render('node 2', True, [0, 0, 0])
+
+                if 398 <= mouse[0] <= 398+110 and 416 <= mouse[1] <= 416+136:
+                    move = 3
+                    # text3 = font.render('node 3', True, [0, 0, 0])
+
+                if 516 <= mouse[0] <= 516+110 and 416 <= mouse[1] <= 416+136:
+                    move = 4
+                    # text4 = font.render('node 4', True, [0, 0, 0])
+
+                if 634 <= mouse[0] <= 634+110 and 416 <= mouse[1] <= 416+136:
+                    move = 5
+                    # text5 = font.render('node 5', True, [0, 0, 0])
+
+                if 752 <= mouse[0] <= 752+110 and 416 <= mouse[1] <= 416+136:
+                    move = 6
+                    # text6 = font.render('node 6', True, [0, 0, 0])
+
 
         # fill background with white
         screen.fill((255, 255, 255))
