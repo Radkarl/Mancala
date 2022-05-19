@@ -11,15 +11,26 @@ class Background(pygame.sprite.Sprite):
         self.rect.left, self.rect.top = location
 
 
+class Endzone(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Endzone, self).__init__()
+        self.surf = pygame.Surface((110, 510))
+        self.surf.fill((0, 0, 0))
+        self.surf.set_colorkey((0, 0, 0))
+        self.stones = 0  # default is 0
+
+
+endzoneC = Endzone()
+endzoneP = Endzone()
 
 
 class Node(pygame.sprite.Sprite):
     def __init__(self):
         super(Node, self).__init__()
-        self.surf = pygame.Surface((109, 136))
+        self.surf = pygame.Surface((110, 136))
         self.surf.fill((0, 0, 0))
-        self.surf.set_colorkey((0, 255, 0)) # (0, 0, 0)
-        self.rect = self.surf.get_rect()
+        self.surf.set_colorkey((0, 0, 0))  # (0, 0, 0)
+        self.stones = 4  # default is 4
 
 
 bubC1 = Node()
@@ -46,6 +57,23 @@ def main():
     screen = pygame.display.set_mode([WIDTH, HEIGHT])
     board = Background("board.png", [0,0])
 
+    # make texts for node stones
+    font = pygame.font.Font('freesansbold.ttf', 18)
+    textEZ_C = font.render(str(endzoneC.stones), True, [0, 0, 0])
+    textEZ_P = font.render(str(endzoneP.stones), True, [0, 0, 0])
+    textC1 = font.render(str(bubC1.stones), True, [0, 0, 0])
+    textC2 = font.render(str(bubC2.stones), True, [0, 0, 0])
+    textC3 = font.render(str(bubC3.stones), True, [0, 0, 0])
+    textC4 = font.render(str(bubC4.stones), True, [0, 0, 0])
+    textC5 = font.render(str(bubC5.stones), True, [0, 0, 0])
+    textC6 = font.render(str(bubC6.stones), True, [0, 0, 0])
+    text1 = font.render(str(bub1.stones), True, [0, 0, 0])
+    text2 = font.render(str(bub2.stones), True, [0, 0, 0])
+    text3 = font.render(str(bub3.stones), True, [0, 0, 0])
+    text4 = font.render(str(bub4.stones), True, [0, 0, 0])
+    text5 = font.render(str(bub5.stones), True, [0, 0, 0])
+    text6 = font.render(str(bub6.stones), True, [0, 0, 0])
+
     # run the program
     is_running = True
     while is_running:
@@ -58,21 +86,55 @@ def main():
         # fill background with white
         screen.fill((255, 255, 255))
 
+        # draw board as background
         screen.blit(board.image, board.rect)
 
-        screen.blit(bubC1.surf, (164, 44))
-        screen.blit(bubC2.surf, (281, 44))
-        screen.blit(bubC3.surf, (398, 44))
-        screen.blit(bubC4.surf, (516, 44))
-        screen.blit(bubC5.surf, (634, 44))
-        screen.blit(bubC6.surf, (752, 44))
+        # draw endzones and stone values
+        screen.blit(endzoneC.surf, (42, 44))
+        screen.blit(textEZ_C, (90, 558))
 
+        screen.blit(endzoneP.surf, (868, 44))
+        screen.blit(textEZ_P, (918, 558))
+
+        # draw nodes and stone values
+        #computer side
+        screen.blit(bubC1.surf, (164, 44))
+        screen.blit(textC1, (212, 185))
+
+        screen.blit(bubC2.surf, (281, 44))
+        screen.blit(textC2, (329, 185))
+
+        screen.blit(bubC3.surf, (398, 44))
+        screen.blit(textC3, (446, 185))
+
+        screen.blit(bubC4.surf, (516, 44))
+        screen.blit(textC4, (564, 185))
+
+        screen.blit(bubC5.surf, (634, 44))
+        screen.blit(textC5, (682, 185))
+
+        screen.blit(bubC6.surf, (752, 44))
+        screen.blit(textC6, (800, 185))
+
+        #player side
         screen.blit(bub1.surf, (164, 416))
+        screen.blit(text1, (212, 558))
+
         screen.blit(bub2.surf, (281, 416))
+        screen.blit(text2, (329, 558))
+
         screen.blit(bub3.surf, (398, 416))
+        screen.blit(text3, (446, 558))
+
         screen.blit(bub4.surf, (516, 416))
+        screen.blit(text4, (564, 558))
+
         screen.blit(bub5.surf, (634, 416))
+        screen.blit(text5, (682, 558))
+
         screen.blit(bub6.surf, (752, 416))
+        screen.blit(text6, (800, 558))
+        # end drawing nodes and stone values
 
         # update the screen every tick
         main_loop(screen)
