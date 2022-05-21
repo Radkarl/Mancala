@@ -5,7 +5,7 @@ import pygame
 
 class Background(pygame.sprite.Sprite):
     def __init__(self, image_file, location):
-        pygame.sprite.Sprite.__init__(self)  #call Sprite initializer
+        pygame.sprite.Sprite.__init__(self)  # call Sprite initializer
         self.image = pygame.image.load(image_file)
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
@@ -49,36 +49,211 @@ bub4 = Node()
 bub5 = Node()
 bub6 = Node()
 
+# array to hold all nodes
+# starting from player's leftmost node, moving cntrclckws & does not include the computer's endzone
+all_nodes = [bub1, bub2, bub3, bub4, bub5, bub6, endzoneP,
+             bubC6, bubC5, bubC4, bubC3, bubC2, bubC1]
+
+# array to hold computer's nodes left to right
+opposite_nodes = [bubC1, bubC2, bubC3, bubC4, bubC5, bubC6]
+
+
+def player_move(move):
+    freeTurn_capturePieces = [False, False, -1]
+    match move:
+        case 1:
+            stones = bub1.stones
+            end_node = all_nodes[stones % 12]
+            freeTurn_capturePieces[2] = stones % 12
+            bub1.stones = 0
+            i = 1
+            end = stones + i
+
+            # loop through nodes and place stones
+            while i < end:
+                # start at left of player nodes if passing computer's end zone
+                if i > 12:
+                    i = 0
+                    end = (end % 12) - 1
+
+                # add 1 stone per node
+                all_nodes[i].stones += 1
+                i += 1
+
+            if end_node == endzoneP:
+                freeTurn_capturePieces[0] = True
+            elif end_node.stones == 1 and stones % 12 <= 6:
+                freeTurn_capturePieces[1] = True
+
+        case 2:
+            stones = bub2.stones
+            end_node = all_nodes[(stones + 1) % 12]
+            freeTurn_capturePieces[2] = (stones + 1) % 12
+            bub2.stones = 0
+            i = 2
+            end = stones + i
+
+            # loop through nodes and place stones
+            while i < end:
+                # start at left of player nodes if passing computer's end zone
+                if i > 12:
+                    i = 0
+                    end = (end % 12) - 1
+
+                # add 1 stone per node
+                all_nodes[i].stones += 1
+                i += 1
+
+            if end_node == endzoneP:
+                freeTurn_capturePieces[0] = True
+            elif end_node.stones == 1 and (stones + 1) % 12 <= 6:
+                freeTurn_capturePieces[1] = True
+
+
+        case 3:
+            stones = bub3.stones
+            end_node = all_nodes[(stones + 2) % 12]
+            freeTurn_capturePieces[2] = (stones + 2) % 12
+            bub3.stones = 0
+            i = 3
+            end = stones + i
+
+            # loop through nodes and place stones
+            while i < end:
+                # start at left of player nodes if passing computer's end zone
+                if i > 12:
+                    i = 0
+                    end = (end % 12) - 1
+
+                # add 1 stone per node
+                all_nodes[i].stones += 1
+                i += 1
+
+            if end_node == endzoneP:
+                freeTurn_capturePieces[0] = True
+            elif end_node.stones == 1 and (stones + 2) % 12 <= 6:
+                freeTurn_capturePieces[1] = True
+
+        case 4:
+            stones = bub4.stones
+            end_node = all_nodes[(stones + 3) % 12]
+            freeTurn_capturePieces[2] = (stones + 3) % 12
+            bub4.stones = 0
+            i = 4
+            end = stones + i
+
+            # loop through nodes and place stones
+            while i < end:
+                # start at left of player nodes if passing computer's end zone
+                if i > 12:
+                    i = 0
+                    end = (end % 12) - 1
+
+                # add 1 stone per node
+                all_nodes[i].stones += 1
+                i += 1
+
+
+            if end_node == endzoneP:
+                freeTurn_capturePieces[0] = True
+            elif end_node.stones == 1 and (stones + 3) % 12 <= 6:
+                freeTurn_capturePieces[1] = True
+
+
+        case 5:
+            stones = bub5.stones
+            end_node = all_nodes[(stones + 4) % 12]
+            freeTurn_capturePieces[2] = (stones + 4) % 12
+            bub5.stones = 0
+            i = 5
+            end = stones + i
+
+            # loop through nodes and place stones
+            while i < end:
+                # start at left of player nodes if passing computer's end zone
+                if i > 12:
+                    i = 0
+                    end = (end % 12) - 1
+
+                # add 1 stone per node
+                all_nodes[i].stones += 1
+                i += 1
+
+
+            if end_node == endzoneP:
+                freeTurn_capturePieces[0] = True
+            elif end_node.stones == 1 and (stones + 4) % 12 <= 6:
+                freeTurn_capturePieces[1] = True
+
+        case 6:
+            stones = bub6.stones
+            end_node = all_nodes[(stones + 5) % 12]
+            if (stones + 5) % 12 < 6:
+                freeTurn_capturePieces[2] = (stones + 5) % 12
+            bub6.stones = 0
+            i = 6
+            end = stones + i
+
+            # loop through nodes and place stones
+            while i < end:
+                # start at left of player nodes if passing computer's end zone
+                if i > 12:
+                    i = 0
+                    end = (end % 12) - 1
+
+                # add 1 stone per node
+                all_nodes[i].stones += 1
+                i += 1
+
+
+            if end_node == endzoneP:
+                freeTurn_capturePieces[0] = True
+            elif end_node.stones == 1 and (stones + 5) % 12 <= 6:
+                freeTurn_capturePieces[1] = True
+
+    # returns a list that tells if the player captures pieces or gets a free turn, and the end node
+    return freeTurn_capturePieces
 
 
 def main():
     pygame.init()
 
+    # player's move choice
+    move = 0
+
+    # whose turn, player goes first
+    player_turn = False
+
     # make the screen
     WIDTH, HEIGHT = 1024, 600
     screen = pygame.display.set_mode([WIDTH, HEIGHT])
-    board = Background("board.png", [0,0])
+    board = Background("board.png", [0, 0])
 
-    # make texts for node stones
+    # make font for texts on screen for node stones
     font = pygame.font.Font('freesansbold.ttf', 18)
-    textEZ_C = font.render(str(endzoneC.stones), True, [0, 0, 0])
-    textEZ_P = font.render(str(endzoneP.stones), True, [0, 0, 0])
-    textC1 = font.render(str(bubC1.stones), True, [0, 0, 0])
-    textC2 = font.render(str(bubC2.stones), True, [0, 0, 0])
-    textC3 = font.render(str(bubC3.stones), True, [0, 0, 0])
-    textC4 = font.render(str(bubC4.stones), True, [0, 0, 0])
-    textC5 = font.render(str(bubC5.stones), True, [0, 0, 0])
-    textC6 = font.render(str(bubC6.stones), True, [0, 0, 0])
-    text1 = font.render(str(bub1.stones), True, [0, 0, 0])
-    text2 = font.render(str(bub2.stones), True, [0, 0, 0])
-    text3 = font.render(str(bub3.stones), True, [0, 0, 0])
-    text4 = font.render(str(bub4.stones), True, [0, 0, 0])
-    text5 = font.render(str(bub5.stones), True, [0, 0, 0])
-    text6 = font.render(str(bub6.stones), True, [0, 0, 0])
 
     # run the program
     is_running = True
     while is_running:
+
+        # whose turn, player goes first
+        player_turn = not player_turn
+
+        # update texts
+        textEZ_C = font.render(str(endzoneC.stones), True, [0, 0, 0])
+        textEZ_P = font.render(str(endzoneP.stones), True, [0, 0, 0])
+        textC1 = font.render(str(bubC1.stones), True, [0, 0, 0])
+        textC2 = font.render(str(bubC2.stones), True, [0, 0, 0])
+        textC3 = font.render(str(bubC3.stones), True, [0, 0, 0])
+        textC4 = font.render(str(bubC4.stones), True, [0, 0, 0])
+        textC5 = font.render(str(bubC5.stones), True, [0, 0, 0])
+        textC6 = font.render(str(bubC6.stones), True, [0, 0, 0])
+        text1 = font.render(str(bub1.stones), True, [0, 0, 0])
+        text2 = font.render(str(bub2.stones), True, [0, 0, 0])
+        text3 = font.render(str(bub3.stones), True, [0, 0, 0])
+        text4 = font.render(str(bub4.stones), True, [0, 0, 0])
+        text5 = font.render(str(bub5.stones), True, [0, 0, 0])
+        text6 = font.render(str(bub6.stones), True, [0, 0, 0])
 
         # check for events like buttons pressed
         for event in pygame.event.get():
@@ -92,30 +267,29 @@ def main():
                 mouse = pygame.mouse.get_pos()
 
                 # check mouse coords with each node coords
-                if 164 <= mouse[0] <= 164+110 and 416 <= mouse[1] <= 416+136:
+                if 164 <= mouse[0] <= 164 + 110 and 416 <= mouse[1] <= 416 + 136 and not bub1.stones == 0:
                     move = 1
                     # text1 = font.render('node 1', True, [0, 0, 0])
 
-                if 281 <= mouse[0] <= 281+110 and 416 <= mouse[1] <= 416+136:
+                if 281 <= mouse[0] <= 281 + 110 and 416 <= mouse[1] <= 416 + 136 and not bub2.stones == 0:
                     move = 2
                     # text2 = font.render('node 2', True, [0, 0, 0])
 
-                if 398 <= mouse[0] <= 398+110 and 416 <= mouse[1] <= 416+136:
+                if 398 <= mouse[0] <= 398 + 110 and 416 <= mouse[1] <= 416 + 136 and not bub3.stones == 0:
                     move = 3
                     # text3 = font.render('node 3', True, [0, 0, 0])
 
-                if 516 <= mouse[0] <= 516+110 and 416 <= mouse[1] <= 416+136:
+                if 516 <= mouse[0] <= 516 + 110 and 416 <= mouse[1] <= 416 + 136 and not bub4.stones == 0:
                     move = 4
                     # text4 = font.render('node 4', True, [0, 0, 0])
 
-                if 634 <= mouse[0] <= 634+110 and 416 <= mouse[1] <= 416+136:
+                if 634 <= mouse[0] <= 634 + 110 and 416 <= mouse[1] <= 416 + 136 and not bub5.stones == 0:
                     move = 5
                     # text5 = font.render('node 5', True, [0, 0, 0])
 
-                if 752 <= mouse[0] <= 752+110 and 416 <= mouse[1] <= 416+136:
+                if 752 <= mouse[0] <= 752 + 110 and 416 <= mouse[1] <= 416 + 136 and not bub6.stones == 0:
                     move = 6
                     # text6 = font.render('node 6', True, [0, 0, 0])
-
 
         # fill background with white
         screen.fill((255, 255, 255))
@@ -131,7 +305,7 @@ def main():
         screen.blit(textEZ_P, (918, 558))
 
         # draw nodes and stone values
-        #computer side
+        # computer side
         screen.blit(bubC1.surf, (164, 44))
         screen.blit(textC1, (212, 185))
 
@@ -150,7 +324,7 @@ def main():
         screen.blit(bubC6.surf, (752, 44))
         screen.blit(textC6, (800, 185))
 
-        #player side
+        # player side
         screen.blit(bub1.surf, (164, 416))
         screen.blit(text1, (212, 558))
 
@@ -170,15 +344,31 @@ def main():
         screen.blit(text6, (800, 558))
         # end drawing nodes and stone values
 
+        while player_turn:
+            # player turn
+            free = player_move(move)
+            # if free[0]:  # player gets free turn
+                # free = player_move(move)
+            if free[1]:  # player captures opposite stones
+                captured_stones = all_nodes[free[2]].stones + opposite_nodes[free[2]].stones
+                endzoneP.stones += captured_stones
+                all_nodes[free[2]].stones = 0
+                opposite_nodes[free[2]].stones = 0
+            player_turn = False
+
+        # while not player_turn:
+        # computer move
+
         # update the screen every tick
-        main_loop(screen)
+        main_loop()
 
     # quit if not running
     pygame.quit()
 
 
-def main_loop(screen):
+def main_loop():
     pygame.display.update()
 
 
 main()
+
