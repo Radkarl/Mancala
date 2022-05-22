@@ -63,8 +63,8 @@ def player_move(move):
     match move:
         case 1:
             stones = bub1.stones
-            end_node = all_nodes[stones % 12]
-            freeTurn_capturePieces[2] = stones % 12
+            end_node = all_nodes[stones] if stones <= 6 else all_nodes[(stones % 12) - 1]
+            freeTurn_capturePieces[2] = stones % 12 if stones <= 6 else (stones % 12) - 1
             bub1.stones = 0
             i = 1
             end = stones + i
@@ -87,8 +87,8 @@ def player_move(move):
 
         case 2:
             stones = bub2.stones
-            end_node = all_nodes[(stones + 1) % 12]
-            freeTurn_capturePieces[2] = (stones + 1) % 12
+            end_node = all_nodes[stones + 1] if (stones + 1) <= 6 else all_nodes[((stones + 1) % 12) - 1]
+            freeTurn_capturePieces[2] = (stones + 1) % 12 if (stones + 1) <= 6 else ((stones + 1) % 12) - 1
             bub2.stones = 0
             i = 2
             end = stones + i
@@ -112,8 +112,8 @@ def player_move(move):
 
         case 3:
             stones = bub3.stones
-            end_node = all_nodes[(stones + 2) % 12]
-            freeTurn_capturePieces[2] = (stones + 2) % 12
+            end_node = all_nodes[stones + 2] if (stones + 2) <= 6 else all_nodes[((stones + 2) % 12) - 1]
+            freeTurn_capturePieces[2] = (stones + 2) % 12 if (stones + 2) <= 6 else ((stones + 2) % 12) - 1
             bub3.stones = 0
             i = 3
             end = stones + i
@@ -136,8 +136,8 @@ def player_move(move):
 
         case 4:
             stones = bub4.stones
-            end_node = all_nodes[(stones + 3) % 12]
-            freeTurn_capturePieces[2] = (stones + 3) % 12
+            end_node = all_nodes[stones + 3] if (stones + 3) <= 6 else all_nodes[((stones + 3) % 12) - 1]
+            freeTurn_capturePieces[2] = (stones + 3) % 12 if (stones + 3) <= 6 else ((stones + 3) % 12) - 1
             bub4.stones = 0
             i = 4
             end = stones + i
@@ -162,8 +162,8 @@ def player_move(move):
 
         case 5:
             stones = bub5.stones
-            end_node = all_nodes[(stones + 4) % 12]
-            freeTurn_capturePieces[2] = (stones + 4) % 12
+            end_node = all_nodes[stones + 4] if (stones + 4) <= 6 else all_nodes[((stones + 4) % 12) - 1]
+            freeTurn_capturePieces[2] = stones + 4 if (stones + 4) <= 6 else ((stones + 4) % 12) - 1
             bub5.stones = 0
             i = 5
             end = stones + i
@@ -187,9 +187,8 @@ def player_move(move):
 
         case 6:
             stones = bub6.stones
-            end_node = all_nodes[(stones + 5) % 12]
-            if (stones + 5) % 12 < 6:
-                freeTurn_capturePieces[2] = (stones + 5) % 12
+            end_node = all_nodes[stones + 5] if (stones + 5) <= 6 else all_nodes[((stones + 5) % 12) - 1]
+            freeTurn_capturePieces[2] = (stones + 5) % 12 if (stones + 5) <= 6 else ((stones + 5) % 12) - 1
             bub6.stones = 0
             i = 6
             end = stones + i
@@ -350,10 +349,11 @@ def main():
             # if free[0]:  # player gets free turn
                 # free = player_move(move)
             if free[1]:  # player captures opposite stones
-                captured_stones = all_nodes[free[2]].stones + opposite_nodes[free[2]].stones
-                endzoneP.stones += captured_stones
-                all_nodes[free[2]].stones = 0
-                opposite_nodes[free[2]].stones = 0
+                if opposite_nodes[free[2]].stones > 0:  # captures only if opposite node has stones
+                    captured_stones = all_nodes[free[2]].stones + opposite_nodes[free[2]].stones
+                    endzoneP.stones += captured_stones
+                    all_nodes[free[2]].stones = 0
+                    opposite_nodes[free[2]].stones = 0
             player_turn = False
 
         # while not player_turn:
@@ -371,4 +371,5 @@ def main_loop():
 
 
 main()
+
 
